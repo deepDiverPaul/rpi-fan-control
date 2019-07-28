@@ -13,8 +13,8 @@ FAN_START = False            # [%] Fan minimum speed.
 PWM_FREQ = 25           # [Hz] Change this value if fan has strange behavior
 
 # Configurable temperature and fan speed steps
-tempSteps = [50, 60, 70]    # [°C]
-speedSteps = [20, 40, 100]   # [%]
+tempSteps = [50, 55, 60, 70]    # [°C]
+speedSteps = [0, 25, 40, 100]   # [%]
 
 # Fan speed will change only of the difference of temperature is higher than hysteresis
 hyst = 1
