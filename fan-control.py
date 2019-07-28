@@ -36,6 +36,10 @@ if(len(speedSteps) != len(tempSteps)):
     print("Numbers of temp steps and speed steps are different")
     exit(0)
 
+fan.ChangeDutyCycle(100)
+time.sleep(1)
+fan.ChangeDutyCycle(0)
+
 try:
     while (1):
         # Read CPU temperature
