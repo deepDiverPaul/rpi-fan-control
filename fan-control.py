@@ -9,11 +9,12 @@ import sys
 FAN_PIN = 24            # BCM pin used to drive transistor's base
 WAIT_TIME = 1           # [s] Time to wait between each refresh
 FAN_MIN = 20            # [%] Fan minimum speed.
+FAN_START = False            # [%] Fan minimum speed.
 PWM_FREQ = 25           # [Hz] Change this value if fan has strange behavior
 
 # Configurable temperature and fan speed steps
-tempSteps = [50, 70]    # [°C]
-speedSteps = [0, 100]   # [%]
+tempSteps = [50, 60, 70]    # [°C]
+speedSteps = [20, 40, 100]   # [%]
 
 # Fan speed will change only of the difference of temperature is higher than hysteresis
 hyst = 1
@@ -63,9 +64,18 @@ try:
                                    +speedSteps[i],1)
 
             if((fanSpeed != fanSpeedOld) ):
-                if((fanSpeed != fanSpeedOld)\
-                   and ((fanSpeed >= FAN_MIN) or (fanSpeed == 0))):
-                    fan.ChangeDutyCycle(fanSpeed)
+                if(fanSpeed != fanSpeedOld):
+                    if(fanSpeed >= FAN_MIN):
+                        if (FAN_START == False):
+                            fan.ChangeDutyCycle(50)
+                            time.sleep(1)
+                            FAN_START = True
+                        fan.ChangeDutyCycle(fanSpeed)
+                        
+                    if(fanSpeed == 0):
+                        FAN_START = False
+                        fan.ChangeDutyCycle(fanSpeed)
+
                     fanSpeedOld = fanSpeed                
 
         # Wait until next refresh
